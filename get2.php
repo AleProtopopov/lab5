@@ -9,16 +9,8 @@ try {
     WHERE name = :group";
     $stmt = $dbh->prepare($sqlSelect);
     $stmt->execute(array(':group'=>$group));
-    $res = $stmt->fetchAll();
-    echo "<table border='1'>";
-    echo "<thead><tr><th>name</th><th>title</th><th>week_day</th>
-    <th>lesson_number</th><th>auditorium</th><th>disciple</th><th>type</th></thead>";
-    foreach($res as $row)
-    {
-        echo"<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>
-        <td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td></tr>";
-    }
-    echo "</table>";
+    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+    echo json_encode($res);
 }
 catch(PDOException $ex) {
     echo $ex->getMessage();

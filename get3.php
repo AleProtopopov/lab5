@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/xml'); 
 $Aud = $_GET["Aud"];
 include("connect.php");
 
@@ -10,15 +11,14 @@ try {
     $stmt = $dbh->prepare($sqlSelect);
     $stmt->execute(array(':Aud'=>$Aud));
     $res = $stmt->fetchAll();
-    echo "<table border='1'>";
-    echo "<thead><tr><th>auditorium</th><th>name</th><th>title</th><th>week_day</th>
-    <th>lesson_number</th><th>disciple</th><th>type</th></thead>";
+    echo '<?xml version="1.0" encoding="UTF-8" ?>';
+    echo "<root>";
     foreach($res as $row)
     {
-        echo"<tr><td>$row[0]</td><td>$row[1]</td><td>$row[2]</td>
-        <td>$row[3]</td><td>$row[4]</td><td>$row[5]</td><td>$row[6]</td></tr>";
+        echo"<row><auditorium>$row[0]</auditorium><name>$row[1]</name><title>$row[2]</title><week_day>$row[3]</week_day>
+        <lesson_number>$row[4]</lesson_number><disciple>$row[5]</disciple><type>$row[6]</type></row>";
     }
-    echo "</table>";
+    echo "</root>";
 }
 catch(PDOException $ex) {
     echo $ex->getMessage();
